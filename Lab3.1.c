@@ -3,36 +3,49 @@
 #include <string.h>
 #include <ctype.h>
 
-typedef word{
-    char *word;
+int str_cmp(char *, char *);
+
+typedef struct word{
+    char word[20];
     int count;
 }INFO;
 
+
 int main()
 {
-    FILE * fp1, FILE *fp2;
+    FILE * fp1;
+    FILE * fp2;
     fp1=fopen("f1.txt","r");
     fp2=fopen("f2.txt","r");
     INFO * info;
     int n,length;
     int i=0;
     char *tmp;
-    
-    fscanf(fp1,"%d %*s",n);
+
+    fscanf(fp1,"%d",&n);
     info=malloc(sizeof(INFO)*n);
     while(fscanf(fp1,"%s",tmp)!=EOF){
         length=strlen(tmp);
-        info.word=malloc(sizeof(char)*length);
-        strcpy(tmp,info[i]);
+        //info[i].word=malloc(sizeof(char)*length);
+        strcpy(info[i].word,tmp);
         i++;
     }
-    char line[100];
     while(fscanf(fp2,"%s",tmp)!=EOF){
-        for(i=0;i)
-            
+        for(i=0;i<n;i++){
+            if(str_cmp(info[i].word,tmp)){
+                info[i].count++;
+            }
         }
     }
-    
+
+    for(i=0;i<n;i++){
+        if(info[i].count>1){
+            fprintf(stdout,"%s - %d occurrence(s)\n", info[i].word, info[i].count);
+        }
+
+    }
+
+
 }
 
 int str_cmp(char *s1, char *s2){
@@ -47,5 +60,3 @@ int str_cmp(char *s1, char *s2){
     else
         return 0;
 }
-
-
